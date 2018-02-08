@@ -63,6 +63,12 @@
 			<artifactId>druid</artifactId>
 			<version>1.1.0</version>
 		</dependency>
+		<!--json-->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.30</version>
+		</dependency>
 
 	</dependencies>
 
@@ -74,6 +80,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
 
 
 </project>
