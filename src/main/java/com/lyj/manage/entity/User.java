@@ -9,9 +9,7 @@ import java.io.Serializable;
 public class User implements Serializable{
 
     private int id;
-    private String uid;
-    private String username;
-    private String password;
+    private String name;
 
     public int getId() {
         return id;
@@ -21,27 +19,19 @@ public class User implements Serializable{
         this.id = id;
     }
 
-    public String getUid() {
-        return uid;
+    public String getName() {
+        return name;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username==null ? null:username.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password==null ? null:password.trim();
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

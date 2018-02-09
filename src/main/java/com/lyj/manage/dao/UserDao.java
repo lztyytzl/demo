@@ -9,7 +9,7 @@ import java.util.List;
  * create by lyj
  * 数据库操作层
  */
-@Mapper
+
 public interface UserDao {
     int deleteByPrimaryKey(Integer id);
 

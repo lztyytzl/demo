@@ -2,31 +2,28 @@ package com.lyj.manage.service;
 
 import com.lyj.manage.dao.UserDao;
 import com.lyj.manage.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-
+import java.util.List;
 @Service
 public class UserServiceImp implements UserService {
-
-    @Resource
-    private UserDao userDao;
-
+    @Autowired
+    UserDao userDao;
 
     @Override
     public User getUserInfo(int id) {
-        return userDao.selectByPrimaryKey(id);
+        return null;
     }
 
     @Override
     public boolean addUser(User user) {
-        boolean flag=false;
-        try{
-            userDao.insert(user);
-            flag=true;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return flag;
+        return false;
+    }
+
+    @Override
+    public List<User> selectAll() {
+        List<User> list=userDao.findAll();
+        return list;
     }
 }
