@@ -2,7 +2,7 @@ package com.lyj.manage.control;
 
 
 import com.alibaba.fastjson.JSON;
-import com.lyj.manage.entity.User;
+import com.lyj.manage.service.UserService;
 import com.lyj.manage.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,19 +18,18 @@ import java.util.Set;
 @RestController
 @RequestMapping("/user")
 public class MyController {
-
     @Autowired
     UserServiceImp userService;
 
     @RequestMapping("/home")
     @ResponseBody
-    public String register(){
-        return JSON.toJSONString(userService.selectAll());
+    public String selectAll(){
+        return JSON.toJSONString(userService.getUserList());
     }
 
 //    @Autowired
 //    private JdbcTemplate jdbcTemplate;
-
+//
 //    @RequestMapping("/getUser")
 //    public List<Map<String,Object>> getUser(){
 //        String sql="select * from initname";

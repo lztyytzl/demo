@@ -6,24 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-public class UserServiceImp implements UserService {
+public class UserServiceImp  implements UserService{
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     @Override
-    public User getUserInfo(int id) {
-        return null;
+    public List<User> getUserList() {
+        return userDao.findAll();
     }
 
-    @Override
-    public boolean addUser(User user) {
-        return false;
-    }
-
-    @Override
-    public List<User> selectAll() {
-        List<User> list=userDao.findAll();
-        return list;
-    }
 }
