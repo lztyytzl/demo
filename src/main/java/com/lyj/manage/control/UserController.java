@@ -2,11 +2,14 @@ package com.lyj.manage.control;
 
 
 import com.alibaba.fastjson.JSON;
+import com.lyj.manage.entity.Code;
+import com.lyj.manage.entity.User;
 import com.lyj.manage.service.UserService;
 import com.lyj.manage.service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +20,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
-public class MyController {
+public class UserController {
     @Autowired
     UserServiceImp userService;
 
@@ -26,6 +29,22 @@ public class MyController {
     public String selectAll(){
         return JSON.toJSONString(userService.getUserList());
     }
+
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    @ResponseBody
+    public String findUser(String uName,String password){
+       User  user=userService.findUser(uName,password);
+       try{
+           if (user!=null){
+               return JSON.toJSONString(user);
+           }else{
+               return JSON.toJSONString(new Code(200,"该用户不存在!"));
+           }
+       }catch (Exception e){
+           return JSON.toJSONString(new Code(100,"服务器错误!"));
+       }
+    }
+
 
 //    @Autowired
 //    private JdbcTemplate jdbcTemplate;

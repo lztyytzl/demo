@@ -14,7 +14,31 @@ public class UserServiceImp  implements UserService{
 
     @Override
     public List<User> getUserList() {
-        return userDao.findAll();
+        try{
+            return userDao.findAll();
+        }catch (Exception e){
+            return null;
+        }
     }
+
+    @Override
+    public User findUser(String uName, String password) {
+        User uzer =userDao.selectByUser(uName,password);
+        try{
+            if (uzer!=null){
+                return uzer;
+            }else{
+                return null;
+            }
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
+    public boolean addUser() {
+        return false;
+    }
+
 
 }

@@ -14,7 +14,7 @@ public interface UserDao {
 
     int insert(User record);
 
-    User selectByPrimaryKey(Integer id);
+    User selectByUser(String uName,String password);
 
     List<User> findAll();
 
