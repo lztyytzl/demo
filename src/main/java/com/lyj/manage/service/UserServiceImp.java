@@ -36,9 +36,14 @@ public class UserServiceImp  implements UserService{
     }
 
     @Override
-    public boolean addUser() {
-        return false;
+    public boolean addUser(User uzer) {
+         boolean isOk=false;
+         int res=userDao.insert(uzer);
+         if (res>0){
+             isOk=true;
+         }else{
+             isOk=false;
+         }
+        return isOk;
     }
-
-
 }

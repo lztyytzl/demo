@@ -3,18 +3,28 @@
 <mapper namespace="com.lyj.manage.dao.UserDao" >
     <resultMap id="BaseResultMap" type="com.lyj.manage.entity.User" >
         <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="name" property="uName" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
     </resultMap>
     <sql id="Base_Column_List" >
         id,name,password
     </sql>
+    <!--索引-->
     <select id="findAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from initname
     </select>
+    <!--查询-->
     <select id="selectByUser" parameterType="String" resultMap="BaseResultMap">
-        select id,name from initname WHERE name=#{0} AND password=#{1} and Role=2
+        select id,name FROM initname WHERE name = #{0} AND password=#{1}
     </select>
+    <!--删除-->
+    <delete id="deleteId"  parameterType="java.lang.String">
+        DELETE from initname WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.lyj.manage.entity.User">
+        INSERT INTO initname(name,password)
+              VALUE (#{name,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR})
+    </insert>
 </mapper>

@@ -6,6 +6,7 @@ import com.lyj.manage.entity.Code;
 import com.lyj.manage.entity.User;
 import com.lyj.manage.service.UserService;
 import com.lyj.manage.service.UserServiceImp;
+import com.lyj.manage.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,25 +25,51 @@ public class UserController {
     @Autowired
     UserServiceImp userService;
 
-    @RequestMapping("/home")
+    @RequestMapping( value = "/home",method = RequestMethod.GET)
     @ResponseBody
     public String selectAll(){
         return JSON.toJSONString(userService.getUserList());
     }
 
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
-    public String findUser(String uName,String password){
-       User  user=userService.findUser(uName,password);
-       try{
-           if (user!=null){
-               return JSON.toJSONString(user);
-           }else{
-               return JSON.toJSONString(new Code(200,"该用户不存在!"));
+    public String findUser(String name,String password){
+       if (name!=null && !name.equals("") && password!=null && !password.equals("")){
+           User user=userService.findUser(name,password);
+           try{
+               if (user!=null){
+                   return JSON.toJSONString(user);
+               }else{
+                   return JSON.toJSONString(new Code(200,"用户名密码错误!"));
+               }
+           }catch (Exception e){
+               return JSON.toJSONString(new Code(100,"服务器错误!"));
            }
-       }catch (Exception e){
-           return JSON.toJSONString(new Code(100,"服务器错误!"));
+       }else{
+            return JSON.toJSONString(new Code(203,"用户名密码不能为空!"));
        }
+    }
+
+    @RequestMapping(value = "/register",method = RequestMethod.GET)
+    @ResponseBody
+    public String register(String userName,String password){
+        if (userName!=null && !userName.equals("") && password!=null && !password.equals("")){
+            try{
+                User uzer=new User();
+                uzer.setName(userName);
+                uzer.setPassword(MD5Util.Md5EncodeToPwd(password));
+                boolean resFlag=userService.addUser(uzer);
+                if (resFlag==true){
+                    return JSON.toJSONString(new Code(200,"注册成功!"));
+                }else{
+                    return JSON.toJSONString(new Code(202,"注册失败!"));
+                }
+            }catch (Exception e){
+                return JSON.toJSONString(new Code(100,"服务器错误!"));
+            }
+        }else{
+            return JSON.toJSONString(new Code(203,"用户名密码不能为空!"));
+        }
     }
 
 

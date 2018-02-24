@@ -15,6 +15,6 @@ public interface UserService {
     //搜索
     public User findUser(String uName,String password);
     //添加用户
-    public boolean addUser();
+    public boolean addUser(User uzer);
 
 }

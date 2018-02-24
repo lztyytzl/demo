@@ -10,7 +10,7 @@ package com.lyj.manage.dao;
  * 数据库操作层
  */
 public interface UserDao {
-    int deleteByPrimaryKey(Integer id);
+    int deleteId(Integer id);
 
     int insert(User record);
 
