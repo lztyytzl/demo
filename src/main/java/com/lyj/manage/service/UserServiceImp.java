@@ -46,4 +46,28 @@ public class UserServiceImp  implements UserService{
          }
         return isOk;
     }
+
+    @Override
+    public int deleteUser(int id) {
+        int resCount=userDao.deleteId(id);
+        try{
+            return resCount;
+        }catch (Exception e){
+            return -1;
+        }
+    }
+
+    @Override
+    public String searchName(String uName) {
+        String resName=userDao.searchUser(uName);
+        try{
+            if (!resName.equals("") && resName!=null){
+                return resName;
+            }else{
+                return null;
+            }
+        }catch (Exception e){
+            return null;
+        }
+    }
 }

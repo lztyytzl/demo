@@ -28,49 +28,81 @@ public class UserController {
     @RequestMapping( value = "/home",method = RequestMethod.GET)
     @ResponseBody
     public String selectAll(){
-        return JSON.toJSONString(userService.getUserList());
+        try{
+            List<User> userList=userService.getUserList();
+            if (userList.size()>0) {
+                return JSON.toJSONString(userService.getUserList());
+            }else{
+                return "[]";
+            }
+        }catch (Exception e){
+            return JSON.toJSONString(new Code(403,"服务器错误"));
+        }
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
     public String findUser(String name,String password){
        if (name!=null && !name.equals("") && password!=null && !password.equals("")){
-           User user=userService.findUser(name,password);
+           User user=userService.findUser(name,MD5Util.Md5EncodeToPwd(password));
            try{
                if (user!=null){
                    return JSON.toJSONString(user);
                }else{
-                   return JSON.toJSONString(new Code(200,"用户名密码错误!"));
+                   return JSON.toJSONString(new Code(200,"用户名或密码错误!"));
                }
            }catch (Exception e){
-               return JSON.toJSONString(new Code(100,"服务器错误!"));
+               return JSON.toJSONString(new Code(403,"服务器错误!"));
            }
        }else{
             return JSON.toJSONString(new Code(203,"用户名密码不能为空!"));
        }
     }
 
-    @RequestMapping(value = "/register",method = RequestMethod.GET)
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
     @ResponseBody
     public String register(String userName,String password){
-        if (userName!=null && !userName.equals("") && password!=null && !password.equals("")){
+        if (userName!=null && !userName.trim().equals("") && password!=null && !password.trim().equals("")){
             try{
-                User uzer=new User();
-                uzer.setName(userName);
-                uzer.setPassword(MD5Util.Md5EncodeToPwd(password));
-                boolean resFlag=userService.addUser(uzer);
-                if (resFlag==true){
-                    return JSON.toJSONString(new Code(200,"注册成功!"));
+                if (userService.searchName(userName)!=null){
+                    return JSON.toJSONString(new Code(201,"该账号已被注册"));
                 }else{
-                    return JSON.toJSONString(new Code(202,"注册失败!"));
+                    User uzer=new User();
+                    uzer.setName(userName);
+                    uzer.setPassword(MD5Util.Md5EncodeToPwd(password));
+                    boolean resFlag=userService.addUser(uzer);
+                    if (resFlag==true){
+                        return JSON.toJSONString(new Code(200,"注册成功!"));
+                    }else{
+                        return JSON.toJSONString(new Code(202,"注册失败!"));
+                    }
                 }
             }catch (Exception e){
-                return JSON.toJSONString(new Code(100,"服务器错误!"));
+                return JSON.toJSONString(new Code(403,"服务器错误!"));
             }
         }else{
             return JSON.toJSONString(new Code(203,"用户名密码不能为空!"));
         }
     }
+
+    @RequestMapping(value = "/cancel",method = RequestMethod.POST)
+    public String cancelUser(String id){
+        if (id!=null && !id.trim().equals("")){
+            try{
+                int rsCount=userService.deleteUser(Integer.parseInt(id));
+                if (rsCount>0){
+                    return JSON.toJSONString(new Code(200,"删除成功!"));
+                }else{
+                    return JSON.toJSONString(new Code(202,"删除失败，请重试!"));
+                }
+            }catch (Exception e){
+                return JSON.toJSONString(new Code(403,"服务器错误!"));
+            }
+        }else{
+            return JSON.toJSONString(new Code(203,"请选择一个用户再进行操作"));
+        }
+    }
+
 
 
 //    @Autowired

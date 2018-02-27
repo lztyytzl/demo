@@ -19,8 +19,12 @@
     <select id="selectByUser" parameterType="String" resultMap="BaseResultMap">
         select id,name FROM initname WHERE name = #{0} AND password=#{1}
     </select>
+    <!--查询用户名-->
+    <select id="searchUser" parameterType="String" resultMap="BaseResultMap">
+        select name FROM initname WHERE name=#{name,jdbcType=VARCHAR}
+    </select>
     <!--删除-->
-    <delete id="deleteId"  parameterType="java.lang.String">
+    <delete id="deleteId"  parameterType="java.lang.Integer">
         DELETE from initname WHERE id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.lyj.manage.entity.User">
