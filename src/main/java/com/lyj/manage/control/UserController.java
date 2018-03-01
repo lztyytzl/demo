@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
@@ -31,9 +28,9 @@ public class UserController {
         try{
             List<User> userList=userService.getUserList();
             if (userList.size()>0) {
-                return JSON.toJSONString(userService.getUserList());
+                return JSON.toJSONString(new Code(200,userService.getUserList()));
             }else{
-                return "[]";
+                return JSON.toJSONString(new Code(200,"[]"));
             }
         }catch (Exception e){
             return JSON.toJSONString(new Code(403,"服务器错误"));
@@ -47,9 +44,10 @@ public class UserController {
            User user=userService.findUser(name,MD5Util.Md5EncodeToPwd(password));
            try{
                if (user!=null){
-                   return JSON.toJSONString(user);
+                   Code code=new Code(200,user);
+                   return JSON.toJSONString(code);
                }else{
-                   return JSON.toJSONString(new Code(200,"用户名或密码错误!"));
+                   return JSON.toJSONString(new Code(202,"用户名或密码错误!"));
                }
            }catch (Exception e){
                return JSON.toJSONString(new Code(403,"服务器错误!"));

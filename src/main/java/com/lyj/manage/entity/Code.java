@@ -2,7 +2,7 @@ package com.lyj.manage.entity;
 
 public class Code {
     private int code;
-    private String result;
+    private Object result;
 
     public int getCode() {
         return code;
@@ -12,15 +12,15 @@ public class Code {
         this.code = code;
     }
 
-    public String getResult() {
+    public Object getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(Object result) {
         this.result = result;
     }
 
-    public Code(int code, String result) {
+    public Code(int code, Object result) {
         this.code = code;
         this.result = result;
     }
@@ -29,7 +29,7 @@ public class Code {
     public String toString() {
         return "Code{" +
                 "code=" + code +
-                ", result='" + result + '\'' +
+                ", result=" + result +
                 '}';
     }
 }
