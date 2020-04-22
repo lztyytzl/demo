@@ -13,22 +13,22 @@
     <select id="findAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from initname
+        from user
     </select>
     <!--查询-->
     <select id="selectByUser" parameterType="String" resultMap="BaseResultMap">
-        select id,name FROM initname WHERE name = #{0} AND password=#{1}
+        select id,name FROM user WHERE name = #{0} AND password=#{1}
     </select>
     <!--查询用户名-->
     <select id="searchUser" parameterType="String" resultMap="BaseResultMap">
-        select name FROM initname WHERE name=#{name,jdbcType=VARCHAR}
+        select name FROM user WHERE name=#{name,jdbcType=VARCHAR}
     </select>
     <!--删除-->
     <delete id="deleteId"  parameterType="java.lang.Integer">
-        DELETE from initname WHERE id = #{id,jdbcType=INTEGER}
+        DELETE from user WHERE id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.lyj.manage.entity.User">
-        INSERT INTO initname(name,password)
+        INSERT INTO user(name,password)
               VALUE (#{name,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR})
     </insert>
 </mapper>

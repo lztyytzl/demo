@@ -37,7 +37,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
     @ResponseBody
     public String findUser(String name,String password){
        if (name!=null && !name.equals("") && password!=null && !password.equals("")){
@@ -57,7 +57,7 @@ public class UserController {
        }
     }
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
+    @RequestMapping(value = "/register",method = RequestMethod.GET)
     @ResponseBody
     public String register(String userName,String password){
         if (userName!=null && !userName.trim().equals("") && password!=null && !password.trim().equals("")){
@@ -76,6 +76,7 @@ public class UserController {
                     }
                 }
             }catch (Exception e){
+                System.out.print(e);
                 return JSON.toJSONString(new Code(403,"服务器错误!"));
             }
         }else{
